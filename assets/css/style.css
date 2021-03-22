@@ -1,0 +1,681 @@
+
+/*
+ #graph {
+   margin-top: -10%;
+ } */
+
+ .heading {
+   background: #fff;
+   border-bottom: 1px solid #eee;
+   height: 60px;
+   line-height: 60px;
+   padding: 0 10px;
+ }
+/*--------------------------------------------------------------*/
+/* GENERAL */
+/*--------------------------------------------------------------*/
+.speech-bubble-left {
+  position: relative;
+  background: #00aabb;
+  border-radius: .4em;
+  width: 50%;
+  padding: 5%;
+}
+
+.speech-bubble-left:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #00aabb;
+  border-bottom: 0;
+  border-left: 0;
+  margin-left: -10px;
+  margin-bottom: -20px;
+}
+
+.speech-bubble-right {
+  position: relative;
+  background: #00aabb;
+  border-radius: .4em;
+  width: 50%;
+  padding: 5%;
+}
+
+.speech-bubble-right:after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  width: 0;
+  height: 0;
+  border: 20px solid transparent;
+  border-top-color: #00aabb;
+  border-bottom: 0;
+  border-right: 0;
+  margin-right: -10px;
+  margin-bottom: -20px;
+}
+
+#riverName {
+  font-size: large;
+}
+
+#riverStatus {
+  font-size: large;
+}
+
+@font-face {
+  font-family: Futura src: url(Futura Bold font.tff);
+}
+
+a {
+  color: #ed6663;
+}
+
+p {
+  font-size: 18px;
+}
+
+h1, .sig, p, a, h4 {
+  font-family: Futura, sans-serif;
+  color: black;
+}
+
+h3 {
+  color: #145DA0;
+}
+
+h3 {
+  display: block;
+  margin-block-start: 0em;
+  margin-block-end: 0.5em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.emoji {
+  height: 18px;
+  width: 18px;
+  margin-right: 3%;
+  margin-top: 3%
+}
+
+#my_dataviz {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.pushme {
+  position: relative;
+  font-weight: 700;
+  background-color: #ffa372;
+  border-radius: 0.6em;
+  display: inline-block;
+  margin: 1em;
+  font-size: 15px;
+  font-family: Futura, sans-serif;
+  color: #ffa372;
+}
+
+.pushme .inner {
+  display: inline-block;
+  background-color: #1b262c;
+  border-radius: 0.6em;
+  border: 0.3em solid #ffa372;
+  padding: 1em;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transform: translate3d(0.6em, -0.6em, 0);
+  transform: translsate3d(0.6em, -0.6em, 0);
+  -webkit-transition: -webkit-transform 240ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: -webkit-transform 240ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 240ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 240ms cubic-bezier(0.175, 0.885, 0.32, 1.275), -webkit-transform 240ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition-delay: 220ms;
+  transition-delay: 220ms;
+}
+
+.pushme:active .inner, .pushme.click .inner, .pushme:hover .inner {
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transition: -webkit-transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: -webkit-transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.button {
+  width: 200px;
+  text-align: center;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
+}
+
+/*--------------------------------------------------------------*/
+/* INTERACTIVE MAP PAGE */
+/*--------------------------------------------------------------*/
+#map {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  background-color: #1b262c;
+}
+
+#map_container {
+  position: absolute;
+  width: 70%;
+  height: 100%;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#map_sidebar {
+  position: absolute;
+      width: 30%;
+      height: 100%;
+      left: 0;
+      margin: 0;
+      background-color: #B1D4E0;
+      overflow: auto;
+      margin-bottom: 180%;
+}
+
+.sidebarSubtitle {
+  position: relative;
+  margin: 0% 0% 4% 0%;
+  padding: 0;
+}
+
+#flowsMoreInfo, #clustersMoreInfo {
+  position: absolute;
+  right: 0;
+  height: 20px;
+  width: 20px;
+}
+
+#flowsMoreInfo p, #clustersMoreInfo p {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  margin: 0;
+  padding: 0px;
+  border-radius: 25px;
+  background: #ffa372;
+  color: #1b262c;
+  font-size: 14px;
+}
+
+#clustersMoreInfo p:hover, #flowsMoreInfo p:hover {
+  background: #fff059;
+  cursor: pointer;
+}
+
+.infoButtonAlignment {
+  position: relative;
+  width: 100%;
+  margin-right: 20% display: flex;
+  flex-direction: row;
+}
+
+.msoaInfo {
+  position: relative;
+  width: 100%;
+  margin-top: 5%;
+  margin-left: 5%;
+  font-family: Futura, sans-serif;
+  font-size: 14px;
+  color: black;
+}
+
+.axis {
+  color: #fff3e0
+}
+
+.gridLines {
+  color: #0d1316
+}
+
+#Legend {
+  font-size: 0.7em;
+}
+
+#legendUrban {
+  font-size: 0.7em;
+}
+
+#clusterConsole {
+  margin: 0% 0% 4% 0%;
+}
+
+.clusterLabel {
+  margin: 0;
+  padding-left: 4px;
+  font-size: 12px;
+  text-decoration: none;
+  color: #fff3e0;
+  line-height: 18px;
+}
+
+.cluster1, .cluster2, .cluster3, .cluster4, .cluster5 {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.myButton {
+	background-color:#00aabb;
+	border-radius:3px;
+	border:1px solid black;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:sans-serif;
+	font-size:15px;
+	padding:9px 23px;
+	text-decoration:none;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #0688fa 5%, #2dabf9 100%);
+	background-color:#0688fa;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+#flowsLegend {
+  display: none;
+  position: absolute;
+  z-index: 89;
+  width: 15%;
+  margin: 1% 2% 2% 30%;
+  padding: 1%;
+  border-radius: 10px;
+  background: #1b262c;
+}
+
+#flowsLegend img {
+  width: 100%;
+}
+
+#flowsPopup {
+  visibility: hidden;
+  position: absolute;
+  z-index: 89;
+  width: 30%;
+  margin: 1% 2% 2% 47%;
+  padding: 1%;
+  border-radius: 10px;
+  background: #1b262c;
+  color: #fff3e0;
+  font-family: Futura, sans-serif;
+  font-size: 12px;
+}
+
+.flowsSwitch {
+  margin: 0% 0% 12% 0%;
+}
+
+.DataSources {
+  position: fixed;
+  bottom: : 0;
+  left: 0;
+  width: 45%;
+  z-index: 1;
+  height: 8 0px;
+  padding: 0;
+  background-color: white;
+}
+
+.DataTabs {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 34%;
+  height: 60px;
+  padding: 0;
+  background-color: white;
+}
+
+
+.DataSourcesText {
+  padding: 1%;
+}
+
+.DataSourcesText h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+.DataSourcesText a {
+  font-size: 10px;
+  text-decoration: none;
+}
+
+.DataSourcesText a:hover {
+  color: #fff059;
+  text-decoration: none;
+}
+
+/*--------------------------------------------------------------*/
+/* STORY PAGE INTERACTIVE CHARTS */
+/*--------------------------------------------------------------*/
+.storyLinks a:hover {
+  color: #fff059;
+  text-decoration: none;
+}
+
+/* .storyLinks {
+  margin-left:10%;
+  margin-right:10%;
+} */
+.pieDescription {
+  color: #fff3e0;
+  TEXT-ALIGN: CENTER;
+}
+
+.legend {
+  font-size: 12px;
+}
+
+rect {
+  cursor: pointer;
+  /* NEW */
+  stroke-width: 2;
+}
+
+rect.disabled {
+  /* NEW */
+  fill: transparent !important;
+  /* NEW */
+}
+
+#chart {
+  display: block;
+  margin: auto;
+  text-align: center;
+}
+
+.totalMSOATravel {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.totalTravelMSOAText {
+  color: #fff3e0;
+}
+
+chart-container {
+  position: relative;
+}
+
+.bar {
+  fill: #1888d6;
+  transition: all 150ms ease;
+}
+
+.bar:hover {
+  fill: #09163d;
+}
+
+.axis--x path {
+  visibility: hidden;
+}
+
+svg text {
+  fill: #ffa372;
+  font-family: Futura, sans-serif;
+}
+
+.msoaInfo svg text {
+  fill: #fff3e0;
+  font-family: Futura, sans-serif;
+}
+
+.background-style {
+  background: #f1f2f3;
+}
+
+.tip {
+  width: 3rem;
+  background-color: #eee;
+  text-align: center;
+  box-shadow: 0px 2px 10px -2px #aaa;
+  border: 2px solid #444;
+  transition: all 160ms cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+.tip::after {
+  content: ' ';
+  position: absolute;
+  bottom: -.5rem;
+  left: 50%;
+  margin-left: -.5rem;
+  border-style: solid;
+  border-width: .5rem .5rem 0 .5rem;
+  border-color: #444 transparent transparent transparent;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+.peopleAndPublicTransportText {
+  text-align: left;
+  margin-right: 10%;
+  margin-left: 10%;
+  margin-top: 5%;
+  color: #fff3e0;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.container {
+  width: 50%;
+  margin: 20px auto;
+  margin-top: 5%;
+}
+
+.avgTransportTimeTitle {
+  font-size: 40px;
+  font-family: Futura, sans-serif;
+  color: #fff3e0;
+}
+
+.storyTitle {
+  font-size: 40px;
+  font-family: futura;
+  color: #fff3e0;
+  margin-left: 10%;
+}
+
+.row {
+  text-align: center;
+  margin-top: 5%;
+}
+
+.transportTimeTitle {
+  font-family: Futura, sans-serif;
+}
+
+.trainImage {
+  width: 80%;
+  margin-top: 36%;
+}
+
+.otherImage {
+  width: 60%;
+  margin-top: 18%;
+}
+
+.travelTimeText {
+  margin-left: 10%;
+  margin-right: 10%;
+  text-align: justify;
+  color: #fff3e0;
+}
+
+#my_dataviz1 {
+  margin-top: 2%;
+  display: block;
+  margin: auto;
+  text-align: center;
+  /* margin-bottom: :30%; */
+}
+
+.boxPlotText {
+  text-align: left;
+  display: block;
+  margin-right: 10%;
+  margin-left: 10%;
+  color: #fff3e0;
+}
+
+.barChart {
+  display: block;
+  height: 60%;
+  width: 30%;
+  text-align: center;
+  margin: auto;
+}
+
+.transportBoxPlotText {
+  text-align: left;
+  margin-right: 10%;
+  margin-left: 10%;
+  margin-top: 5%;
+  color: #fff3e0;
+}
+
+.barChartPeople {
+  display: block;
+  height: 60%;
+  width: 30%;
+  text-align: center;
+  margin: auto;
+}
+
+/* --------------------------------------------------------------*/
+/* INTERACTIVE MAP WELCOME AND INFO POP UP BOXES */
+/*--------------------------------------------------------------*/
+#blur_out {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 90;
+  background-color: black;
+  opacity: 0.5;
+}
+
+#popup_box {
+  position: absolute;
+  width: 40%;
+  height: 23%;
+  left: 30%;
+  top: 30%;
+  z-index: 100;
+  padding: 5%;
+  background: #e5e5e3;
+  border-radius: 25px;
+  padding: 20px;
+  font-size: 15px;
+  -moz-box-shadow: 0 0 5px black;
+  -webkit-box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px black;
+  overflow: auto;
+}
+
+#popup_box a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+#popup_box a:hover {
+  cursor: pointer;
+  color: #white;
+}
+
+#popupBoxCloseButton:hover {
+  cursor: pointer;
+  background: black;
+}
+
+#popup_box p, #popup_box h1 {
+  position: relative;
+  margin: 0% 0% 2% 0%;
+  padding: 0;
+  color: #000000;
+}
+
+#popupBoxCloseButton {
+  position: relative;
+  margin: 0% 0% 2% 0%;
+  padding: 2%;
+  width: 20%;
+  text-align: center;
+  background: black;
+  border-radius: 10px;
+}
+
+#popupBoxCloseButton p {
+  color: white;
+  font-size: 20px;
+}
+
+#clustersInfoPopup, #flowsInfoPopup {
+  display: none;
+  position: absolute;
+  z-index: 502;
+  padding: 5%;
+  background: #37a583;
+  border-radius: 25px;
+  padding: 20px;
+  font-size: 15px;
+  -moz-box-shadow: 0 0 5px black;
+  -webkit-box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px black;
+  overflow: auto;
+}
+
+#clustersInfoPopup {
+  height: 82%;
+  width: 50%;
+  top: 10%;
+  left: 25%;
+}
+
+#flowsInfoPopup {
+  height: 25%;
+  width: 40%;
+  top: 30%;
+  left: 30%;
+  padding-top: 2%;
+}

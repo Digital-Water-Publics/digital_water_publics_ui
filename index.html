@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="description" content="Interactive Map">
+  <meta name="author" content="River Status">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css " />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css" rel="stylesheet" />
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.js'></script>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css' rel='stylesheet' />
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v3.js"></script>
+
+</head>
+
+<body>
+
+  <!-- MAPBOX GEOCODER FOR SEARCH BAR -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css" />
+
+  <body id="map">
+
+    <!-- WELCOME POP UP BOX -->
+    <!-- <div id="blur_out"></div>
+
+    <div id="popup_box">
+      <h1>Welcome!</h1>
+      <p> The Urban Sentiment Map is a spatial visulasation of semantic reactions to the natural environmental. Built by Dr.Helge Peters and Nathanael Sheehan, the project utilises twitter mining, natural language processing and GIS to illustrate the
+        ecological status of water bodies in London, as well as citizens emotional semantic reaction to a given river. </p>
+      <h1> How to use </h1>
+      <p><strong>Click</strong> on a river to view the breakdown of the ecological status, the reasons for not acheiving ecologically good status and the emotional reaction of the tweets.</p>
+      <a id="popupBoxClose">
+        <div id="popupBoxCloseButton">
+          <p>Explore</p>
+        </div>
+      </a>
+    </div> -->
+    <div class='map-overlay' id='legend'></div <!-- MAP SIDEBAR -->
+    <div id="map_sidebar">
+      <!-- <div class="DataTabs">
+        <div class="sentimentTab" style="background-color: #D00000;width:50%;float:left;text-align:center;">
+          <h4 onclick="myFunction()">Sentiment</h4>
+        </div>
+        <div class="sentimentTab" style="background-color: #FFBA08;width:50%;float:right;text-align:center;">
+          <h4 onclick="myFunction()">Ecological</h4>
+        </div>
+      </div> -->
+      <!-- msoa info and chart -->
+      <div class="msoaInfo">
+        <div class="msoaInfoText">
+          <div class="speech-bubble-left">
+            <span id="riverName"></span>
+          </div>
+          <b><p>Water Body <span>&#8505;</span> </p></b>
+        </div>
+        <div class="msoaInfoText">
+          <div class="speech-bubble-right">
+            <span id="riverStatus"></span>
+          </div>
+          <b><p>Environmental Condition <span>&#8505;</span></p></b>
+        </div>
+        <div class="msoaInfoText">
+          <div class="speech-bubble-left">
+            <span id="riverIssue1"></span>
+            <span id="riverIssue2"></span>
+            <span id="riverIssue3"></span>
+            <span id="riverIssue4"></span>
+            <span id="riverIssue5"></span>
+            <span id="riverIssue6"></span>
+          </div>
+          <b><p>Whats Wrong with It? <span>&#8505;</span></p></b>
+        </div>
+        <div class="msoaInfoText">
+          <b><p>How It Makes People Feel <span>&#8505;</span></p></b>
+          <p id="error"></p>
+          <section id="graph"></section>
+        </div>
+        <div class="msoaInfoText">
+          <b><p>How It Makes You Feel? <span>&#8505;</span></p></b>
+          <div class="wrapper">
+            <a href="https://twitter.com/intent/tweet?text=My%20river%20makes%20me%20feel" class="myButton">Tweet</a>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- end of sidebar div -->
+
+    <!-- MAPBOX MAP -->
+    <div id="map_container"></div>
+    <!--  <script type="module" src="assets/scripts/mapScripts/london-reasons.js"></script>-->
+    <script type="module" src="assets/scripts/mapScripts/map.js"></script>
+    <script type="module" src="assets/scripts/mapScripts/welcome_popup.js"></script>
+  </body>
+
+</html>
