@@ -127,12 +127,23 @@ map.on('load', function() {
       // D3 Bubble Chart
 
       if (states[0].properties.anger > 0) {
-              document.getElementById('error').innerHTML = ''
+
+        document.getElementById('error').innerHTML = ''
         var diameter = 200;
 
         var svg = d3.select('#graph').append('svg')
           .attr('width', diameter)
           .attr('height', diameter);
+
+        var tooltip = d3.select("#graph")
+          .append("div")
+          .style("opacity", 0)
+          .attr("class", "tooltip")
+          .style("background-color", "white")
+          .style("border", "solid")
+          .style("border-width", "1px")
+          .style("border-radius", "5px")
+          .style("padding", "10px")
 
         var bubble = d3.layout.pack()
           .size([diameter, diameter])
@@ -147,16 +158,39 @@ map.on('load', function() {
         var vis = svg.selectAll('circle')
           .data(nodes);
 
+        var mouseover = function(d) {
+          tooltip
+            .style("opacity", 1)
+        }
+
+        var mousemove = function(d) {
+          tooltip
+            .html("Sentiment %: " + Math.round(d.size))
+            .style("left", (d3.mouse(this)[0] + 90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+            .style("top", (d3.mouse(this)[1]) + "px")
+        }
+
+        // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+        var mouseleave = function(d) {
+          tooltip
+            .transition()
+            .duration(200)
+            .style("opacity", 0)
+        }
+
         vis.enter().append("image")
+          .on("mouseover", mouseover)
+          .on("mousemove", mousemove)
+          .on("mouseleave", mouseleave)
           .attr("xlink:href", function(d) {
 
             return d.url;
           })
           .attr("width", function(d) {
-            return d.r;
+            return d.r * 1.3;
           })
           .attr("height", function(d) {
-            return d.r;
+            return d.r * 1.3;
           })
           .attr('transform', function(d) {
             return 'translate(' + d.x + ',' + d.y + ')';
@@ -164,8 +198,9 @@ map.on('load', function() {
           .attr('class', function(d) {
             return d.className;
           });
+
       } else {
-      document.getElementById('error').innerHTML = 'Opps! There is not enough tweets <br>about this waterbody.'
+        document.getElementById('error').innerHTML = 'Opps! There is not enough tweets <br>about this waterbody.'
       }
 
       function processData(data) {
@@ -186,22 +221,6 @@ map.on('load', function() {
         };
       }
 
-
-
-
-      //Show sentiment score
-      // document.getElementById('Anger').innerHTML = +states[0].properties.anger;
-      // document.getElementById('Anticipation').innerHTML = +states[0].properties.antcptn;
-      // document.getElementById('Disgust').innerHTML = +states[0].properties.disgust;
-      // document.getElementById('Fear').innerHTML = +states[0].properties.fear;
-      // document.getElementById('Joy').innerHTML = +states[0].properties.joy;
-      // document.getElementById('Negative').innerHTML = +states[0].properties.negativ;
-      // document.getElementById('Positive').innerHTML = +states[0].properties.positiv;
-      // document.getElementById('Sadness').innerHTML = +states[0].properties.sadness;
-      // document.getElementById('Surprise').innerHTML = +states[0].properties.surpris;
-      // document.getElementById('Trust').innerHTML = +states[0].properties.trust;
-
-
     } else {
       d3.selectAll("svg", "svg1").remove();
       document.getElementById('riverName').innerHTML = '<p>Click on a River</p>';
@@ -212,49 +231,10 @@ map.on('load', function() {
       document.getElementById('riverIssue4').innerHTML = '';
       document.getElementById('riverIssue5').innerHTML = '';
       document.getElementById('riverIssue6').innerHTML = '';
-      // document.getElementById('Anger').innerHTML = '';
-      // document.getElementById('Anticipation').innerHTML = '';
-      // document.getElementById('Disgust').innerHTML = '';
-      // document.getElementById('Fear').innerHTML = '';
-      // document.getElementById('Joy').innerHTML = '';
-      // document.getElementById('Negative').innerHTML = '';
-      // document.getElementById('Positive').innerHTML = '';
-      // document.getElementById('Sadness').innerHTML = '';
-      // document.getElementById('Surprise').innerHTML = '';
-      // document.getElementById('Trust').innerHTML = '';
     }
   });
 });
 
-
-// document.getElementById('AgricultureAndRural').innerHTML = '<p>' + states[0].properties.Agrarlm;
-// document.getElementById('DomesticGeneralPublic').innerHTML = '<p>' + states[0].properties.DmstcGP;
-// document.getElementById('Industry').innerHTML = '<p>' + states[0].properties.Indstry;
-// document.getElementById('LocalandCentralGovernment').innerHTML = '<p>' + states[0].properties.LclanCG;
-// document.getElementById('MiningAndQuarrying').innerHTML = '<p>' + states[0].properties.Mnnganq;
-// document.getElementById('Navigation').innerHTML = '<p>' + states[0].properties.Navigtn;
-// document.getElementById('NoSectorResponsible').innerHTML = '<p>' + states[0].properties.Nsctrrs;
-// document.getElementById('SectorUnderInvestigation').innerHTML = '<p>' + states[0].properties.Sctruni;
-// document.getElementById('Recreation').innerHTML = '<p>' + states[0].properties.Recretn;
-// document.getElementById('Urbanandtransport').innerHTML = '<p>' + states[0].properties.Urbnant;
-// document.getElementById('WasteTreatmentAndDisposal').innerHTML = '<p>' + states[0].properties.Wsttrad;
-// document.getElementById('WaterIndustry').innerHTML = '<p>' + states[0].properties.Wtrinds;
-// document.getElementById('Other').innerHTML = '<p>' + states[0].properties.Other;
-
-// var width = 250
-// var height = 250
-// var margin = 20
-//
-// // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
-// var radius = Math.min(width, height) / 2 - margin
-//
-// // append the svg object to the div called 'my_dataviz'
-// var svg = d3.select("#my_dataviz")
-//   .append("svg")
-//   .attr("width", width)
-//   .attr("height", height)
-//   .append("g")
-//   .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 //
 // // Add data
 // var data = {
@@ -272,150 +252,3 @@ map.on('load', function() {
 //   "Water Industry": states[0].properties.WtrInds,
 //   "Other": states[0].properties.Other
 // }
-//
-// // set the color scale
-// var color = d3.scaleOrdinal()
-//   .domain(data)
-//   .range(["#9CAFB7", "#ADB993", "#D0D38F", "#F6CA83", "#949D6A", "#523A34", "#393E41", "#1A5E63", "#3D0B37", "#63264A", "#14264d"]);
-//
-// // Compute the position of each group on the pie:
-// var pie = d3.pie()
-//   .value(function(d) {
-//     return d.value;
-//   })
-// var data_ready = pie(d3.entries(data))
-// // Now I know that group A goes from 0 degrees to x degrees and so on.
-//
-// // shape helper to build arcs:
-// var arcGenerator = d3.arc()
-//   .innerRadius(0)
-//   .outerRadius(radius)
-//
-// // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-// svg
-//   .selectAll('mySlices')
-//   .data(data_ready)
-//   .enter()
-//   .append('path')
-//   .attr('d', arcGenerator)
-//   .attr('fill', function(d) {
-//     return (color(d.data.key))
-//   })
-//   .attr("stroke", "black")
-//   .style("stroke-width", "2px")
-//   .style("opacity", 0.7)
-//
-// // Now add the annotation. Use the centroid method to get the best coordinates
-// svg
-//   .selectAll('mySlices')
-//   .data(data_ready)
-//   .enter()
-//   .append('text')
-//   .text(function(d) {
-//     if (d.value > 0) {
-//       return d.data.key
-//     }
-//   })
-//   .attr("transform", function(d) {
-//     return "translate(" + arcGenerator.centroid(d) + ")";
-//   })
-//   .style("text-anchor", "middle")
-//   .style("font-size", 8)
-//   .on("mouseover", function(d) {
-//     d3.select("#tooltip")
-//       .style("left", d3.event.pageX + "px")
-//       .style("top", d3.event.pageY + "px")
-//       .style("opacity", 1)
-//       .select("#sector")
-//       .text(d.data.key)
-//       .select("#value")
-//       .text(d.value);
-//   })
-//   .on("mouseout", function() {
-//     // Hide the tooltip
-//     d3.select("#tooltip")
-//       .style("opacity", 0);;
-//   });
-//
-//
-// //
-// // append the svg object to the div called 'my_dataviz'
-// var svg1 = d3.select("#my_dataviz1")
-//   .append("svg")
-//   .attr("width", width)
-//   .attr("height", height)
-//   .append("g")
-//   .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-//
-// // Add data
-// var data1 = {
-//   "Changes to the natural flow and levels of water": states[0].properties.Cttnfalow,
-//   //"Non-native invasive species": states[0].properties.Nn-ntis,
-//   "Physical modifications": states[0].properties.Physclm,
-//   "Pollution from abandoned mines": states[0].properties.Plltfam,
-//   "Pollution from rural areas": states[0].properties.Plltfra,
-//   "Pollution from towns, cities and transport": states[0].properties.pft,
-//   "Pollution from waste water": states[0].properties.Plltfww,
-// }
-//
-// // set the color scale
-// var color1 = d3.scaleOrdinal()
-//   .domain(data1)
-//   .range(["#D1C6AD", "#BBADA0", "#A1869E", "#797596", "#0B1D51", "#2660A4", "#56351E", "#3A606E", "#4B543B", "#232020"]);
-//
-// // Compute the position of each group on the pie:
-// var pie1 = d3.pie()
-//   .value(function(d) {
-//     return d.value;
-//   })
-// var data_ready1 = pie(d3.entries(data1))
-// // Now I know that group A goes from 0 degrees to x degrees and so on.
-//
-// // shape helper to build arcs:
-// var arcGenerator1 = d3.arc()
-//   .innerRadius(0)
-//   .outerRadius(radius)
-//
-// // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
-// svg1
-//   .selectAll('mySlices')
-//   .data(data_ready1)
-//   .enter()
-//   .append('path')
-//   .attr('d', arcGenerator1)
-//   .attr('fill', function(d) {
-//     return (color(d.data.key))
-//   })
-//   .attr("stroke", "black")
-//   .style("stroke-width", "2px")
-//   .style("opacity", 0.7)
-//
-// // Now add the annotation. Use the centroid method to get the best coordinates
-// svg1
-//   .selectAll('mySlices')
-//   .data(data_ready1)
-//   .enter()
-//   .append('text')
-//   .text(function(d) {
-//     if (d.value > 0) {
-//       return d.data.key
-//     }
-//   })
-//   .attr("transform", function(d) {
-//     return "translate(" + arcGenerator1.centroid(d) + ")";
-//   })
-//   .style("text-anchor", "middle")
-//   .style("font-size", 8)
-//   .on("mouseover", function(d) {
-//     d3.select("#tooltip")
-//       .style("left", d3.event.pageX + "px")
-//       .style("top", d3.event.pageY + "px")
-//       .style("opacity", 1)
-//       .select("#sector")
-//       .text(d.data.key)
-//   })
-//   .on("mouseout", function() {
-//     // Hide the tooltip
-//     d3.select("#tooltip")
-//       .style("opacity", 0);;
-//   });
